@@ -1,12 +1,25 @@
 header {
-    position: fixed;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-inline: 60px;
+    box-sizing: border-box;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 25% 75%;
 }
 
 .header-btn {
     display: flex;
     gap: 30px;
+}
+
+.btn-forest-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
 }
