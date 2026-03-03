@@ -10,7 +10,80 @@
     <header>
         <button>Перелік користувачі</button>
         <button>Додати лісництво</button>
-        <button>Видалити лісництво</button>
+        <button>Керувати лісництвами</button>
     </header>
+    <main>
+        <form action="/admin" method="post">
+            <div>
+                <label for="">Надлісництво</label>
+                <select name="mainForest" id="">
+                    <option value="Звернігородське">Звернігородське</option>
+                    <option value="Корсунь-Шевченківське">Корсунь-Шевченківське</option>
+                    <option value="Черкаське">Черкаське</option>
+                </select>
+
+                <label for="">Лісництво</label>
+                <input type="text" name="forest">
+            </div>
+
+            <div>
+
+            <label for="">Вид рубки</label>
+                <select name="typeCutting" id="">
+                    <option value="РГК">РГК</option>
+                    <option value="ОСВ">ОСВ</option>
+                    <option value="ПРЧ">ПРЧ</option>
+                    <option value="ПРЖ">ПРЖ</option>
+                    <option value="ПРХ">ПРХ</option>
+                </select>
+
+                <label for="">Квартал</label>
+                <input type="text" name="quarter">
+
+                <label for="">Виділ</label>
+                <input type="text" name="department">
+
+                <label for="">Площа</label>
+                <input type="text" name="area">
+
+            </div>
+
+            <div>
+                <label for="">Об'єм відповідно до матеріалів лісовпорядкування</label>
+                <input type="text" name="volumeForestManagement">
+                
+                <label for="">Місяць</label>
+                <select name="month" id="">
+                    <option value="Січень">Січень</option>
+                    <option value="Лютий">Лютий</option>
+                    <option value="Березень">Березень</option>
+                    <option value="Квітень">Квітень</option>
+                    <option value="Травень">Травень</option>
+                    <option value="Червень">Червень</option>
+                    <option value="Липень">Липень</option>
+                    <option value="Серпень">Серпень</option>
+                    <option value="Вересень">Вересень</option>
+                    <option value="Жовтень">Жовтень</option>
+                    <option value="Листопад">Листопад</option>
+                    <option value="Грудень">Грудень</option>
+                </select>
+    
+                <label for="">Декада</label>
+                <input type="text" name="decade">
+    
+                <label for="">Рік рубки</label>
+                <select name="year" id="">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select> 
+            </div>
+            <button type="submit">Додати</button>
+        </form>
+    </main>
 </body>
 </html>
