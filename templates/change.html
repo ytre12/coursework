@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin-style.css') }}">
+    <title>Change</title>
+</head>
+<body>
+    <header>
+        <button>Перелік користувачі</button>
+        <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
+        <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
+    </header>
+    <main>
+        {% for forest in forests %}
+        <div class="forest-item">
+            <p>{{ forest.mainForest }}</p>
+            <p>{{ forest.forest }}</p>
+            <p>{{ forest.typeCutting }}</p>
+            <p>{{ forest.quarter }}</p>
+            <p>{{ forest.department }}</p>
+            <p>{{ forest.area }}</p>
+            <p>{{ forest.volumeForestManagement }}</p>
+            <p>{{ forest.month }}</p>
+            <p>{{ forest.decade }}</p>
+            <p>{{ forest.year }}</p>
+
+            <form action="{{ url_for('delete', id=forest.id) }}" method="POST">
+                <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені?')">
+            </form>
+            <form action="{{ url_for('edit', id=forest.id) }}" method="GET">
+                <input type="submit" value="Редагувати">
+        </div>
+        {% endfor %}
+    </main>
+</body>
+</html>

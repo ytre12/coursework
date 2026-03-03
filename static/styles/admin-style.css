@@ -12,3 +12,10 @@ form {
     justify-content: center;
     gap: 40px;
 }
+
+.forest-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
