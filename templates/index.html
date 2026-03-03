@@ -17,7 +17,7 @@
     </header>
     <main>
         <div class="btn-forest-navigation">
-            <button>Налаштування</button>
+            <button id="seting-btn">Налаштування</button>
             <button>Лісництво 1</button>
             <button>Лісництво 2</button>
             <button>Лісництво 3</button>
@@ -27,5 +27,24 @@
 
         </div>
     </main>
+    <div class="modal-overlay">
+        <div class="modal-content">
+        {% for forest in forests %}
+            <div class="db-conteiner"> 
+                <p>{{forest.mainForest}}</p>
+                <p>{{forest.forest}}</p>
+                <p>{{forest.typeCutting}}</p>
+                <p>{{forest.quarter}}</p>
+                <p>{{forest.departament}}</p>
+                <p>{{forest.area}}</p>
+                <p>{{forest.volumeForestManagement}}</p>
+                <p>{{forest.month}}</p>
+                <p>{{forest.decade}}</p>
+                <p>{{forest.year}}</p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/openDbWindow.js') }}"></script>
 </body>
 </html>

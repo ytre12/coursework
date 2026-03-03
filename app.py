@@ -9,7 +9,13 @@ forest_db.init_app(app)
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    forestsDb = Forest.query.all()
+
+    return render_template('index.html', forests=forestsDb)
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 
 if __name__ == '__main__':    
