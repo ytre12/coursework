@@ -10,9 +10,16 @@
     <header>
         <h1>Name of app</h1>
         <div class="header-btn">
-            <button>Увійти</button>
-            <button>Зареєструватись</button>
-            <button>Notification</button>
+            {% if current_user.is_authenticated %}
+                <button>Вітаємо {{ current_user.username }}</button>
+                <button>Форум</button>
+                <button>Про нас</button>
+                <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
+                <button>Notification</button>
+            {% else %}
+                <a href="{{ url_for('login') }}"><button>Увійти</button></a>
+                <a href="{{ url_for('register') }}"><button>Зареєструватись</button></a>
+            {% endif %}
         </div>
     </header>
     <main>
