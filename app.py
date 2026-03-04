@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for
 from DB import db, Forest, User
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
+from decorators import admin_required
+
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forest.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forests.db'
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 
 login_manager = LoginManager()
@@ -23,6 +25,8 @@ def main():
     return render_template('index.html', forests=forestsDb)
 
 @app.route('/admin', methods=['GET', 'POST'])
+@login_required
+@admin_required
 def admin():
     if request.method == 'POST':
         new_forest = Forest(
@@ -45,18 +49,42 @@ def admin():
     return render_template('admin.html')
 
 @app.route('/change', methods=['POST', 'GET'])
+@login_required
+@admin_required
 def change():
     all_forests = Forest.query.all()
     return render_template('change.html', forests=all_forests)
 
 @app.route('/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
 def delete(id):
     forest = Forest.query.get_or_404(id)
     db.session.delete(forest)
     db.session.commit()
     return redirect('/change')
 
+@app.route('/delete_user/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_user(id):
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('/all_users')
+
+@app.route('/toggle_admin/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def toggle_admin(id):
+    user = User.query.get_or_404(id)
+    user.isAdmin = not user.isAdmin
+    db.session.commit()
+    return redirect('/all_users')
+
 @app.route('/edit/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
 def edit(id):
     forest = Forest.query.get_or_404(id)
     if request.method == 'POST':
@@ -75,6 +103,13 @@ def edit(id):
         return redirect('/change')
 
     return render_template('edit.html', forest=forest)
+
+@app.route('/all_users', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def all_users():
+    users = User.query.all()
+    return render_template('all_user.html', users=users)
 
 
 # ============= Користувачі ============

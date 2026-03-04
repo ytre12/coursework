@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin-style.css') }}">
+    <title>Users</title>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
+        <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
+        <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
+    </header>
+    <main>
+        {% for user in users %}
+        <div class="forest-item">
+            <p>ID: {{ user.id }}</p>
+            <p>{{ user.username }}</p>
+            <p>{{ user.gmail }}</p>
+            {% if user.isAdmin %}
+                <p>Користувач є адміністратором</p>
+            {% else %}
+                <p>Користувач не є адміністратором</p>
+            {% endif %}
+            <form action="{{ url_for('toggle_admin', id=user.id) }}" method="POST">
+                {% if user.isAdmin %}
+                    <input type="submit" value="Зробити користувачем" onclick="return confirm('Ви впевнені?')">
+                {% else %}
+                    <input type="submit" value="Зробити адміністратором" onclick="return confirm('Ви впевнені?')">
+                {% endif %}
+            </form>
+
+            <form action="{{ url_for('delete_user', id=user.id) }}" method="POST">
+                <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені?')">
+            </form>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+</html>

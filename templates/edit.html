@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <button>Перелік користувачі</button>
+        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
         <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
         <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
     </header>
