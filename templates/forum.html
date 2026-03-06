@@ -13,7 +13,7 @@
             {% if current_user.is_authenticated %}
                 <button>Вітаємо {{ current_user.username }}</button>
                 <a href="{{ url_for('main') }}"><button>На головну</button></a>
-                <button>Про нас</button>
+                <a href="{{ url_for('about_ass') }}"><button>Про нас</button></a>
                 <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
                 <button>Notification</button>
             {% else %}
