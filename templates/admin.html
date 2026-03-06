@@ -8,9 +8,11 @@
 </head>
 <body>
     <header>
+        <a href="{{ url_for('comits')}}"><button>Додати коміт</button></a>
         <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
         <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
         <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
+        <a href="{{ url_for('main') }}"><button>Головна сторінка</button></a>
     </header>
     <main>
         <form action="/admin" method="post">

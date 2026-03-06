@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin-style.css') }}">
+    <title>Comits</title>
+</head>
+<body>
+    <head>
+        <header>
+        <a href="{{ url_for('comits')}}"><button>Додати коміт</button></a>
+        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
+        <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
+        <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
+        <a href="{{ url_for('main') }}"><button>Головна сторінка</button></a>
+    </header>
+    </head>
+    <main>
+        <h1>Comits</h1>
+        <div>
+            <h1>Add comits</h1>
+            <form action="/comits" method="POST">
+                <input type="text" name="username" placeholder="Username" value= "{{ current_user.username }}" readonly>
+                <input type="text" name="comment" placeholder="Comment">
+                <input type="submit" value="Add comits">
+            </form>
+        </div>
+        <ul>
+            {% for commit in comits %}
+                <li>
+                    <strong>{{ commit.username }}</strong> - {{ commit.date }}
+                    <p>{{ commit.comment }}</p>
+                    <form action="/delete_commit/{{ commit.id }}" method="POST" style="display: inline;">
+                        <input type="submit" value="Видалити">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>

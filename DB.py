@@ -17,6 +17,12 @@ class Forest(db.Model):
     decade = db.Column(db.String(50), nullable=False)
     year = db.Column(db.Integer, nullable=False)
 
+class Comits(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     isAdmin = db.Column(db.Boolean, default=False)
@@ -29,3 +35,10 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+class Forum(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    isAdmin = db.Column(db.Boolean, default=False)

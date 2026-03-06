@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-from DB import db, Forest, User
+from DB import db, Forest, User, Comits
+from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from decorators import admin_required
@@ -156,6 +157,45 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
+
+@app.route('/comits', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def comits():
+    if request.method == 'POST':
+        username = request.form['username']
+        comment = request.form['comment']
+        new_commit = Comits(username=username, comment=comment, date=datetime.utcnow())
+        db.session.add(new_commit)
+        db.session.commit()
+        return redirect('/comits')
+
+    all_comits = Comits.query.all()
+    
+    return render_template('comits.html', comits=all_comits)
+
+@app.route('/delete_commit/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_commit(id):
+    commit = Comits.query.get_or_404(id)
+    db.session.delete(commit)
+    db.session.commit()
+    return redirect('/comits')
+
+@app.route('/forum', methods=['GET', 'POST'])
+@login_required
+def forum():
+    if request.method == 'POST':
+        comment = request.form['comment']
+        new_comment = Comits(username=current_user.username, comment=comment, date=datetime.utcnow(), isAdmin=current_user.isAdmin)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect('/forum')
+
+    all_comments = Comits.query.order_by(Comits.date.desc()).all()
+    
+    return render_template('forum.html', comments=all_comments)
 
 if __name__ == '__main__':    
     with app.app_context():
