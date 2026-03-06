@@ -38,6 +38,7 @@ class User(UserMixin, db.Model):
 
 class Forum(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     username = db.Column(db.String(150), nullable=False)
     comment = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)

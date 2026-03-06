@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from DB import db, Forest, User, Comits
+from DB import db, Forest, User, Comits, Forum
 from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -188,14 +188,28 @@ def delete_commit(id):
 def forum():
     if request.method == 'POST':
         comment = request.form['comment']
-        new_comment = Comits(username=current_user.username, comment=comment, date=datetime.utcnow(), isAdmin=current_user.isAdmin)
+        new_comment = Forum(username=current_user.username, comment=comment, userID=current_user.id, date=datetime.utcnow(), isAdmin=current_user.isAdmin)
         db.session.add(new_comment)
         db.session.commit()
         return redirect('/forum')
 
-    all_comments = Comits.query.order_by(Comits.date.desc()).all()
+    all_comments = Forum.query.order_by(Forum.date.desc()).all()
     
     return render_template('forum.html', comments=all_comments)
+
+@app.route('/delete_forum_comment/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_forum_comment(id):
+    comment = Forum.query.get_or_404(id)
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect('/forum')
+
+@app.route('/about_ass')
+@login_required
+def about_ass():
+    return render_template('about_ass.html')
 
 if __name__ == '__main__':    
     with app.app_context():

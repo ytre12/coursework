@@ -12,7 +12,10 @@
         <div class="header-btn">
             {% if current_user.is_authenticated %}
                 <button>Вітаємо {{ current_user.username }}</button>
-                <button>Форум</button>
+                {% if current_user.isAdmin %}
+                    <a href="{{ url_for('admin') }}"><button>Адміністрування</button></a>
+                {% endif %}
+                <a href="{{ url_for('forum') }}"><button>Форум</button></a>
                 <button>Про нас</button>
                 <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
                 <button>Notification</button>

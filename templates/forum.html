@@ -3,9 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forum-style.css') }}">
     <title>Forum</title>
 </head>
 <body>
-    
+    <header>
+        <h1>Name of app</h1>
+        <div class="header-btn">
+            {% if current_user.is_authenticated %}
+                <button>Вітаємо {{ current_user.username }}</button>
+                <a href="{{ url_for('main') }}"><button>На головну</button></a>
+                <button>Про нас</button>
+                <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
+                <button>Notification</button>
+            {% else %}
+                <a href="{{ url_for('login') }}"><button>Увійти</button></a>
+                <a href="{{ url_for('register') }}"><button>Зареєструватись</button></a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        {% for comment in comments %}
+            {% if comment.userID == current_user.id %}
+                <div class="my-message">
+                    <div class="message-admin">
+                        <p class="user-name">{{ comment.username }}</p>
+                        <p class="massage">{{ comment.comment }}</p>
+                    </div>
+                    {{ comment.date }}
+                    {% if current_user.isAdmin %}
+                        <form action="{{ url_for('delete_forum_comment', id=comment.id) }}" method="POST">
+                            <button type="submit">Видалити</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="not-my-message">
+                    <div class="message-admin">
+                        <p class="user-name">{{ comment.username }}</p>
+                        <p class="massage">{{ comment.comment }}</p>
+                    </div>
+                    {{ comment.date }}
+                    {% if current_user.isAdmin %}
+                        <form action="{{ url_for('delete_forum_comment', id=comment.id) }}" method="POST">
+                            <button type="submit">Видалити</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </main>
+    <form class="forms-input" action="/forum" method="POST">
+        <input type="text" name="comment" placeholder="Повідомлення..." required>
+        <button type="submit">Надіслати</button>
+    </form>
 </body>
 </html>

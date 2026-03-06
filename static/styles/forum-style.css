@@ -1,0 +1,72 @@
+.forms-input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    right: 0px;
+    background: #f0f0f0;
+    padding: 10px;
+    z-index: 1000;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 60px;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.message-user {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.message-admin {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background: #d0d0d0;
+    padding: 10px;
+    border-radius: 8px;
+    border: solid 1px #000;
+}
+
+.user-name {
+    margin: 0px;
+    padding: 0px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.massage {
+    margin: 0px;
+    padding: 0px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.my-message {
+    margin-left: 100px;
+}
+
+.not-my-message {
+    margin-right: 100px;
+}
