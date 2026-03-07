@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/scroll-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main-style.css') }}">
     <title>Main</title>
 </head>
@@ -39,7 +40,23 @@
     </main>
     <div class="modal-overlay">
         <div class="modal-content">
-        {% for forest in forests %}
+            <div class="btn-navigation">
+                <button onclick="sortData('mainForest')">Main Forest</button>
+                <button onclick="sortData('forest')">Forest</button>
+                <button onclick="sortData('typeCutting')">Type of Cutting</button>
+                <button onclick="sortData('quarter')">Quarter</button>
+                <button onclick="sortData('departament')">Departament</button>
+                <button onclick="sortData('area')">Area</button>
+                <button onclick="sortData('volumeForestManagement')">Volume Forest Management</button>
+                <button onclick="sortData('month')">Month</button>
+                <button onclick="sortData('decade')">Decade</button>
+                <button onclick="sortData('year')">Year</button>
+                <button id="close-modal">close</button>
+            </div>
+            <div id="forest-container">
+
+            </div>
+        <!-- {% for forest in forests %}
             <div class="db-conteiner"> 
                 <p>{{forest.mainForest}}</p>
                 <p>{{forest.forest}}</p>
@@ -52,7 +69,7 @@
                 <p>{{forest.decade}}</p>
                 <p>{{forest.year}}</p>
             </div>
-        {% endfor %}
+        {% endfor %} -->
         </div>
     </div>
     <script src="{{ url_for('static', filename='scripts/openDbWindow.js') }}"></script>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from DB import db, Forest, User, Comits, Forum
 from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -24,6 +24,23 @@ db.init_app(app)
 def main():
     forestsDb = Forest.query.all()
     return render_template('index.html', forests=forestsDb)
+
+@app.route('/api/forests', methods=['GET'])
+def get_forests():
+    forests = Forest.query.all()
+    return jsonify([{
+        'id': forest.id,
+        'mainForest': forest.mainForest,
+        'forest': forest.forest,
+        'typeCutting': forest.typeCutting,
+        'quarter': forest.quarter,
+        'department': forest.department,
+        'area': forest.area,
+        'volumeForestManagement': forest.volumeForestManagement,
+        'month': forest.month,
+        'decade': forest.decade,
+        'year': forest.year
+    } for forest in forests])
 
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
