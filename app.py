@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from DB import db, Forest, User, Comits, Forum, Favorite
 from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from sqlalchemy import func
 
 from decorators import admin_required
 
@@ -78,8 +79,51 @@ def admin():
 @login_required
 @admin_required
 def change():
-    all_forests = Forest.query.all()
-    return render_template('change.html', forests=all_forests)
+    # Отримуємо параметри з URL (наприклад: ?sort=year&order=desc)
+    sort_by = request.args.get('sort', 'id')
+    order = request.args.get('order', 'asc')
+
+    # Список дозволених колонок (щоб уникнути помилок, якщо в URL введуть щось зайве)
+    valid_columns = [
+        'id', 'mainForest', 'forest', 'typeCutting', 'quarter', 
+        'department', 'area', 'volumeForestManagement', 'month', 'decade', 'year'
+    ]
+
+    if sort_by in valid_columns:
+        # Динамічно отримуємо колонку з моделі Forest (еквівалентно Forest.year, Forest.area тощо)
+        column = getattr(Forest, sort_by)
+        
+        # Визначаємо напрямок сортування
+        if order == 'desc':
+            all_forests = Forest.query.order_by(column.desc()).all()
+        else:
+            all_forests = Forest.query.order_by(column.asc()).all()
+    else:
+        # Якщо параметра немає, або він неправильний — видаємо все за замовчуванням
+        all_forests = Forest.query.all()
+    
+    # 1. Загальна кількість записів (всі рубки)
+    total_cuttings = Forest.query.count()
+    
+    # 2. Кількість УНІКАЛЬНИХ лісництв (наприклад, скільки різних mainForest у базі)
+    unique_forests = db.session.query(func.count(func.distinct(Forest.forest))).scalar()
+    
+    # 3. Загальна площа (сума всіх значень у колонці area)
+    total_area = db.session.query(func.sum(Forest.area)).scalar() 
+    # Якщо база порожня, sum поверне None, тому робимо перевірку:
+    total_area = round(total_area, 2) if total_area else 0.0
+
+    # 4. (Бонус) Загальний об'єм
+    total_volume = db.session.query(func.sum(Forest.volumeForestManagement)).scalar()
+    total_volume = round(total_volume, 2) if total_volume else 0.0
+
+    # Передаємо ці змінні у шаблон
+    return render_template('change.html', 
+                           forests=all_forests, # твоя відсортована база
+                           total_cuttings=total_cuttings,
+                           unique_forests=unique_forests,
+                           total_area=total_area,
+                           total_volume=total_volume)
 
 @app.route('/delete/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -134,7 +178,24 @@ def edit(id):
 @login_required
 @admin_required
 def all_users():
-    users = User.query.all()
+    # Отримуємо параметри сортування
+    sort_by = request.args.get('sort', 'id')
+    order = request.args.get('order', 'asc')
+
+    # Дозволені колонки для таблиці User
+    valid_columns = ['id', 'username', 'gmail', 'isAdmin']
+
+    if sort_by in valid_columns:
+        # Динамічно отримуємо колонку (User.id, User.username тощо)
+        column = getattr(User, sort_by)
+        
+        if order == 'desc':
+            users = User.query.order_by(column.desc()).all()
+        else:
+            users = User.query.order_by(column.asc()).all()
+    else:
+        users = User.query.all()
+
     return render_template('all_user.html', users=users)
 
 
@@ -248,7 +309,7 @@ def favorite():
     favorite_forests = Forest.query.filter(Forest.id.in_(forest_ids)).all()
 
     return render_template('favorite.html', forests=favorite_forests)
-    
+
 @app.route('/api/toggle_favorite', methods=['POST'])
 def toggle_favorite():
     if not current_user.is_authenticated:

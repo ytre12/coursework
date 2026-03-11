@@ -9,30 +9,70 @@
 <body>
     <header>
         <a href="{{ url_for('comits')}}"><button>Додати коміт</button></a>
-        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
+        <a href="{{ url_for('all_users') }}"><button>Перелік користувачів</button></a>
         <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
         <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
         <a href="{{ url_for('main') }}"><button>Головна сторінка</button></a>
     </header>
+
+    <div class="stat-card">
+        <h3>Унікальних лісництв</h3>
+        <div class="stat-value">{{ unique_forests }}</div>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Всього записів рубок</h3>
+        <div class="stat-value">{{ total_cuttings }}</div>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Загальна площа</h3>
+        <div class="stat-value">{{ total_area }} га</div>
+    </div>
+    
+    <div class="stat-card" style="border-left-color: #2980b9;">
+        <h3>Загальний об'єм</h3>
+        <div class="stat-value">{{ total_volume }} м³</div>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0; padding: 15px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px;">
+        <form action="{{ url_for('change') }}" method="GET">
+            <label for="sort">Сортувати за:</label>
+            <select name="sort" id="sort" style="padding: 5px;">
+                <option value="id" {% if request.args.get('sort') == 'id' %}selected{% endif %}>За замовчуванням (ID)</option>
+                <option value="mainForest" {% if request.args.get('sort') == 'mainForest' %}selected{% endif %}>Головним лісництвом</option>
+                <option value="forest" {% if request.args.get('sort') == 'forest' %}selected{% endif %}>Лісництвом</option>
+                <option value="typeCutting" {% if request.args.get('sort') == 'typeCutting' %}selected{% endif %}>Типом рубки</option>
+                <option value="quarter" {% if request.args.get('sort') == 'quarter' %}selected{% endif %}>Кварталом</option>
+                <option value="department" {% if request.args.get('sort') == 'department' %}selected{% endif %}>Виділом</option>
+                <option value="area" {% if request.args.get('sort') == 'area' %}selected{% endif %}>Площею</option>
+                <option value="volumeForestManagement" {% if request.args.get('sort') == 'volumeForestManagement' %}selected{% endif %}>Об'ємом</option>
+                <option value="month" {% if request.args.get('sort') == 'month' %}selected{% endif %}>Місяцем</option>
+                <option value="decade" {% if request.args.get('sort') == 'decade' %}selected{% endif %}>Декадою</option>
+                <option value="year" {% if request.args.get('sort') == 'year' %}selected{% endif %}>Роком</option>
+            </select>
+
+            <select name="order" id="order" style="padding: 5px; margin-left: 10px;">
+                <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>За зростанням (А-Я, 0-9)</option>
+                <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>За спаданням (Я-А, 9-0)</option>
+            </select>
+
+            <button type="submit" style="padding: 5px 15px; margin-left: 10px;">Застосувати</button>
+            <a href="{{ url_for('change') }}"><button type="button" style="padding: 5px 15px; margin-left: 10px;">Скинути</button></a>
+        </form>
+    </div>
     <main>
         {% for forest in forests %}
-        <div class="forest-item">
-            <p>{{ forest.mainForest }}</p>
-            <p>{{ forest.forest }}</p>
-            <p>{{ forest.typeCutting }}</p>
-            <p>{{ forest.quarter }}</p>
-            <p>{{ forest.department }}</p>
-            <p>{{ forest.area }}</p>
-            <p>{{ forest.volumeForestManagement }}</p>
-            <p>{{ forest.month }}</p>
-            <p>{{ forest.decade }}</p>
-            <p>{{ forest.year }}</p>
+        <div class="forest-item" style="border-bottom: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <p><strong>{{ forest.mainForest }}</strong> | {{ forest.forest }} | {{ forest.typeCutting }} | Квартал: {{ forest.quarter }} | Виділ: {{ forest.department }} | Площа: {{ forest.area }} | Об'єм: {{ forest.volumeForestManagement }} | Місяць: {{ forest.month }} | Декада: {{ forest.decade }} | Рік: {{ forest.year }}</p>
 
-            <form action="{{ url_for('delete', id=forest.id) }}" method="POST">
+            <form action="{{ url_for('delete', id=forest.id) }}" method="POST" style="display:inline;">
                 <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені?')">
             </form>
-            <form action="{{ url_for('edit', id=forest.id) }}" method="GET">
+            
+            <form action="{{ url_for('edit', id=forest.id) }}" method="GET" style="display:inline;">
                 <input type="submit" value="Редагувати">
+            </form>
         </div>
         {% endfor %}
     </main>

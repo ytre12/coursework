@@ -9,23 +9,43 @@
 <body>
     <header>
         <a href="{{ url_for('comits')}}"><button>Додати коміт</button></a>
-        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
+        <a href="{{ url_for('all_users') }}"><button>Перелік користувачів</button></a>
         <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
         <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
         <a href="{{ url_for('main') }}"><button>Головна сторінка</button></a>
     </header>
+
+    <div style="text-align: center; margin: 20px 0; padding: 15px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px;">
+        <form action="{{ url_for('all_users') }}" method="GET">
+            <label for="sort">Сортувати за:</label>
+            <select name="sort" id="sort" style="padding: 5px;">
+                <option value="id" {% if request.args.get('sort') == 'id' %}selected{% endif %}>ID</option>
+                <option value="username" {% if request.args.get('sort') == 'username' %}selected{% endif %}>Іменем (Username)</option>
+                <option value="gmail" {% if request.args.get('sort') == 'gmail' %}selected{% endif %}>Поштою (Email)</option>
+                <option value="isAdmin" {% if request.args.get('sort') == 'isAdmin' %}selected{% endif %}>Роллю (Адмін/Користувач)</option>
+            </select>
+
+            <select name="order" id="order" style="padding: 5px; margin-left: 10px;">
+                <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>За зростанням (А-Я, 0-9)</option>
+                <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>За спаданням (Я-А, 9-0)</option>
+            </select>
+
+            <button type="submit" style="padding: 5px 15px; margin-left: 10px;">Застосувати</button>
+            <a href="{{ url_for('all_users') }}"><button type="button" style="padding: 5px 15px; margin-left: 10px;">Скинути</button></a>
+        </form>
+    </div>
     <main>
         {% for user in users %}
-        <div class="forest-item">
-            <p>ID: {{ user.id }}</p>
-            <p>{{ user.username }}</p>
-            <p>{{ user.gmail }}</p>
+        <div class="forest-item" style="border-bottom: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <p><strong>ID:</strong> {{ user.id }} | <strong>Ім'я:</strong> {{ user.username }} | <strong>Пошта:</strong> {{ user.gmail }}</p>
+            
             {% if user.isAdmin %}
-                <p>Користувач є адміністратором</p>
+                <p style="color: green; font-weight: bold;">Користувач є адміністратором</p>
             {% else %}
                 <p>Користувач не є адміністратором</p>
             {% endif %}
-            <form action="{{ url_for('toggle_admin', id=user.id) }}" method="POST">
+
+            <form action="{{ url_for('toggle_admin', id=user.id) }}" method="POST" style="display:inline;">
                 {% if user.isAdmin %}
                     <input type="submit" value="Зробити користувачем" onclick="return confirm('Ви впевнені?')">
                 {% else %}
@@ -33,7 +53,7 @@
                 {% endif %}
             </form>
 
-            <form action="{{ url_for('delete_user', id=user.id) }}" method="POST">
+            <form action="{{ url_for('delete_user', id=user.id) }}" method="POST" style="display:inline;">
                 <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені?')">
             </form>
         </div>
