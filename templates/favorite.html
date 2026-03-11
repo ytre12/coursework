@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/forum-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/commit.css') }}">
     <title>Favorite</title>
 </head>
 <body>
@@ -19,7 +20,7 @@
                 <a href="{{ url_for('forum') }}"><button>Форум</button></a>
                 <a href="{{ url_for('about_ass') }}"><button>Про нас</button></a>
                 <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
-                <button>Notification</button>
+                <button id="open-commit">Notification</button>
             {% else %}
                 <a href="{{ url_for('login') }}"><button>Увійти</button></a>
                 <a href="{{ url_for('register') }}"><button>Зареєструватись</button></a>
@@ -70,6 +71,22 @@
         </table>
     </main>
 
+    <div class="commit-modal">
+        <button id="commit-modal-close">Close</button>
+        <div class="commit-conteiner">
+            {% for comit in comits %}
+                <div class="commit">
+                    <div>
+                        <p>{{ comit.username }}</p>
+                        <p>{{ comit.date }}</p>
+                    </div>
+                    <p>{{ comit.comment }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/openCommitWindow.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/delFavorite.js') }}"></script>
 </body>
 </html>

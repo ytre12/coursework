@@ -1,4 +1,3 @@
-// Знаходимо всі кнопки
 const windowSettings = document.getElementById('seting-btn');
 const forestOneBtn = document.getElementById('forestOne-btn');
 const forestTwoBtn = document.getElementById('forestTwo-btn');
@@ -12,7 +11,6 @@ let localForestsData = [];
 let currentRenderedData = [];    
 let isMainModal = true;          
 
-// Універсальна функція для відкриття модалки
 function openModalWithData(forestNameFilter = null) {
     modal.style.display = 'flex';
 
@@ -33,7 +31,6 @@ function openModalWithData(forestNameFilter = null) {
     }
 }
 
-// Функція фільтрації та виклику малювання
 function processAndRender(forestNameFilter) {
     if (forestNameFilter) {
         currentRenderedData = localForestsData.filter(item => item.mainForest === forestNameFilter);
@@ -46,7 +43,6 @@ function processAndRender(forestNameFilter) {
     renderData(currentRenderedData);
 }
 
-// ЄДИНА функція для відтворення HTML
 function renderData(data) {
     container.innerHTML = ''; 
 
@@ -65,11 +61,8 @@ function renderData(data) {
             if (sortMainBtn) sortMainBtn.style.display = 'none';
         }
         
-        // НОВЕ: Перевіряємо статус фаворита і вибираємо іконку
-        // Якщо item.is_favorite == true, малюємо зафарбоване сердечко, інакше - пусте
         let heartIcon = item.is_favorite ? '❤️' : '🤍';
         
-        // НОВЕ: Додав кнопку сердечка в кінці рядка
         htmlContent += `
             <p>${item.forest}</p>
             <p>${item.typeCutting}</p>
@@ -91,7 +84,6 @@ function renderData(data) {
     });
 }
 
-// Оновлене сортування 
 function sortData(field) {
     if (currentRenderedData.length === 0) return;
 
@@ -112,7 +104,6 @@ function sortData(field) {
     renderData(currentRenderedData);
 }
 
-// НОВЕ: Функція для збереження/видалення з фаворитів
 function toggleFavorite(forestId, btnElement) {
     fetch('/api/toggle_favorite', {
         method: 'POST',
@@ -129,23 +120,21 @@ function toggleFavorite(forestId, btnElement) {
         return response.json();
     })
     .then(data => {
-        if (!data) return; // Якщо була помилка 401, зупиняємось
+        if (!data) return;
 
-        // Знаходимо цей об'єкт у нашому головному масиві даних
         let item = localForestsData.find(f => f.id === forestId);
 
         if (data.status === 'added') {
             btnElement.innerHTML = '❤️';
-            if (item) item.is_favorite = true; // Оновлюємо стан у пам'яті
+            if (item) item.is_favorite = true;
         } else if (data.status === 'removed') {
             btnElement.innerHTML = '🤍';
-            if (item) item.is_favorite = false; // Оновлюємо стан у пам'яті
+            if (item) item.is_favorite = false;
         }
     })
     .catch(err => console.error('Помилка фаворитів:', err));
 }
 
-// Слухачі подій
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
 });

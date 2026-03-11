@@ -24,16 +24,16 @@ db.init_app(app)
 @app.route('/')
 def main():
     forestsDb = Forest.query.all()
-    return render_template('index.html', forests=forestsDb)
+    commitDb = Comits.query.order_by(Comits.date.desc()).limit(5).all()
+
+    return render_template('index.html', forests=forestsDb, comits=commitDb)
 @app.route('/api/forests', methods=['GET'])
 def get_forests():
     forests = Forest.query.all()
     
     favorite_forest_ids = []
     if current_user.is_authenticated:
-        # Змінено user_id на userID
         user_favs = Favorite.query.filter_by(userID=current_user.id).all()
-        # Змінено forest_id на forestID
         favorite_forest_ids = [fav.forestID for fav in user_favs]
 
     return jsonify([{
@@ -79,47 +79,38 @@ def admin():
 @login_required
 @admin_required
 def change():
-    # Отримуємо параметри з URL (наприклад: ?sort=year&order=desc)
     sort_by = request.args.get('sort', 'id')
     order = request.args.get('order', 'asc')
-
-    # Список дозволених колонок (щоб уникнути помилок, якщо в URL введуть щось зайве)
+    
     valid_columns = [
         'id', 'mainForest', 'forest', 'typeCutting', 'quarter', 
         'department', 'area', 'volumeForestManagement', 'month', 'decade', 'year'
     ]
 
     if sort_by in valid_columns:
-        # Динамічно отримуємо колонку з моделі Forest (еквівалентно Forest.year, Forest.area тощо)
+        
         column = getattr(Forest, sort_by)
         
-        # Визначаємо напрямок сортування
+        
         if order == 'desc':
             all_forests = Forest.query.order_by(column.desc()).all()
         else:
             all_forests = Forest.query.order_by(column.asc()).all()
     else:
-        # Якщо параметра немає, або він неправильний — видаємо все за замовчуванням
         all_forests = Forest.query.all()
     
-    # 1. Загальна кількість записів (всі рубки)
     total_cuttings = Forest.query.count()
     
-    # 2. Кількість УНІКАЛЬНИХ лісництв (наприклад, скільки різних mainForest у базі)
     unique_forests = db.session.query(func.count(func.distinct(Forest.forest))).scalar()
     
-    # 3. Загальна площа (сума всіх значень у колонці area)
     total_area = db.session.query(func.sum(Forest.area)).scalar() 
-    # Якщо база порожня, sum поверне None, тому робимо перевірку:
     total_area = round(total_area, 2) if total_area else 0.0
-
-    # 4. (Бонус) Загальний об'єм
+    
     total_volume = db.session.query(func.sum(Forest.volumeForestManagement)).scalar()
     total_volume = round(total_volume, 2) if total_volume else 0.0
 
-    # Передаємо ці змінні у шаблон
     return render_template('change.html', 
-                           forests=all_forests, # твоя відсортована база
+                           forests=all_forests, 
                            total_cuttings=total_cuttings,
                            unique_forests=unique_forests,
                            total_area=total_area,
@@ -178,15 +169,12 @@ def edit(id):
 @login_required
 @admin_required
 def all_users():
-    # Отримуємо параметри сортування
     sort_by = request.args.get('sort', 'id')
     order = request.args.get('order', 'asc')
 
-    # Дозволені колонки для таблиці User
     valid_columns = ['id', 'username', 'gmail', 'isAdmin']
 
     if sort_by in valid_columns:
-        # Динамічно отримуємо колонку (User.id, User.username тощо)
         column = getattr(User, sort_by)
         
         if order == 'desc':
@@ -280,8 +268,9 @@ def forum():
         return redirect('/forum')
 
     all_comments = Forum.query.order_by(Forum.date.desc()).all()
+    commitDb = Comits.query.order_by(Comits.date.desc()).limit(5).all()
     
-    return render_template('forum.html', comments=all_comments)
+    return render_template('forum.html', comments=all_comments, comits=commitDb)
 
 @app.route('/delete_forum_comment/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -295,20 +284,21 @@ def delete_forum_comment(id):
 @app.route('/about_ass')
 @login_required
 def about_ass():
-    return render_template('about_ass.html')
+    commitDb = Comits.query.order_by(Comits.date.desc()).limit(5).all()
+    return render_template('about_ass.html', comits=commitDb)
 
 @app.route('/favorite')
 @login_required
 def favorite():
-    # Змінено user_id на userID
+    
     user_favorites = Favorite.query.filter_by(userID=current_user.id).all()
     
-    # Змінено forest_id на forestID
     forest_ids = [fav.forestID for fav in user_favorites]
     
     favorite_forests = Forest.query.filter(Forest.id.in_(forest_ids)).all()
+    commitDb = Comits.query.order_by(Comits.date.desc()).limit(5).all()
 
-    return render_template('favorite.html', forests=favorite_forests)
+    return render_template('favorite.html', forests=favorite_forests, comits=commitDb)
 
 @app.route('/api/toggle_favorite', methods=['POST'])
 def toggle_favorite():
@@ -316,10 +306,8 @@ def toggle_favorite():
         return jsonify({'error': 'Необхідно увійти в систему'}), 401
 
     data = request.get_json()
-    # Це значення приходить з JS, тому тут залишається forest_id (як ми писали в JS)
-    forest_id_from_js = data.get('forest_id')
 
-    # Змінено filter_by на userID та forestID
+    forest_id_from_js = data.get('forest_id')
     favorite = Favorite.query.filter_by(userID=current_user.id, forestID=forest_id_from_js).first()
 
     if favorite:
@@ -327,7 +315,6 @@ def toggle_favorite():
         db.session.commit()
         return jsonify({'status': 'removed'})
     else:
-        # Змінено імена полів при створенні нового запису
         new_favorite = Favorite(userID=current_user.id, forestID=forest_id_from_js)
         db.session.add(new_favorite)
         db.session.commit()
