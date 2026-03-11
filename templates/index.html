@@ -16,6 +16,7 @@
                 {% if current_user.isAdmin %}
                     <a href="{{ url_for('admin') }}"><button>Адміністрування</button></a>
                 {% endif %}
+                <a href="{{ url_for('favorite') }}"><button>Улюблені</button></a>
                 <a href="{{ url_for('forum') }}"><button>Форум</button></a>
                 <a href="{{ url_for('about_ass') }}"><button>Про нас</button></a>
                 <a href="{{ url_for('logout') }}"><button>Вийти</button></a>

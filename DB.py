@@ -43,3 +43,8 @@ class Forum(db.Model):
     comment = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     isAdmin = db.Column(db.Boolean, default=False)
+
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    forestID = db.Column(db.Integer, db.ForeignKey('forest.id'), nullable=False)

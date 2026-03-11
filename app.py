@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from DB import db, Forest, User, Comits, Forum
+from DB import db, Forest, User, Comits, Forum, Favorite
 from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -24,10 +24,17 @@ db.init_app(app)
 def main():
     forestsDb = Forest.query.all()
     return render_template('index.html', forests=forestsDb)
-
 @app.route('/api/forests', methods=['GET'])
 def get_forests():
     forests = Forest.query.all()
+    
+    favorite_forest_ids = []
+    if current_user.is_authenticated:
+        # Змінено user_id на userID
+        user_favs = Favorite.query.filter_by(userID=current_user.id).all()
+        # Змінено forest_id на forestID
+        favorite_forest_ids = [fav.forestID for fav in user_favs]
+
     return jsonify([{
         'id': forest.id,
         'mainForest': forest.mainForest,
@@ -39,7 +46,8 @@ def get_forests():
         'volumeForestManagement': forest.volumeForestManagement,
         'month': forest.month,
         'decade': forest.decade,
-        'year': forest.year
+        'year': forest.year,
+        'is_favorite': forest.id in favorite_forest_ids 
     } for forest in forests])
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -227,6 +235,42 @@ def delete_forum_comment(id):
 @login_required
 def about_ass():
     return render_template('about_ass.html')
+
+@app.route('/favorite')
+@login_required
+def favorite():
+    # Змінено user_id на userID
+    user_favorites = Favorite.query.filter_by(userID=current_user.id).all()
+    
+    # Змінено forest_id на forestID
+    forest_ids = [fav.forestID for fav in user_favorites]
+    
+    favorite_forests = Forest.query.filter(Forest.id.in_(forest_ids)).all()
+
+    return render_template('favorite.html', forests=favorite_forests)
+    
+@app.route('/api/toggle_favorite', methods=['POST'])
+def toggle_favorite():
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Необхідно увійти в систему'}), 401
+
+    data = request.get_json()
+    # Це значення приходить з JS, тому тут залишається forest_id (як ми писали в JS)
+    forest_id_from_js = data.get('forest_id')
+
+    # Змінено filter_by на userID та forestID
+    favorite = Favorite.query.filter_by(userID=current_user.id, forestID=forest_id_from_js).first()
+
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({'status': 'removed'})
+    else:
+        # Змінено імена полів при створенні нового запису
+        new_favorite = Favorite(userID=current_user.id, forestID=forest_id_from_js)
+        db.session.add(new_favorite)
+        db.session.commit()
+        return jsonify({'status': 'added'})
 
 if __name__ == '__main__':    
     with app.app_context():

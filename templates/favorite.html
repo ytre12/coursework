@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forum-style.css') }}">
+    <title>Favorite</title>
+</head>
+<body>
+    <header>
+        <h1>Name of app</h1>
+        <div class="header-btn">
+            {% if current_user.is_authenticated %}
+                <button>Вітаємо {{ current_user.username }}</button>
+                {% if current_user.isAdmin %}
+                    <a href="{{ url_for('admin') }}"><button>Адміністрування</button></a>
+                {% endif %}
+                <a href="{{ url_for('main') }}"><button>Головна</button></a>
+                <a href="{{ url_for('forum') }}"><button>Форум</button></a>
+                <a href="{{ url_for('about_ass') }}"><button>Про нас</button></a>
+                <a href="{{ url_for('logout') }}"><button>Вийти</button></a>
+                <button>Notification</button>
+            {% else %}
+                <a href="{{ url_for('login') }}"><button>Увійти</button></a>
+                <a href="{{ url_for('register') }}"><button>Зареєструватись</button></a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+
+        <table cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Main Forest</th>
+                    <th>Forest</th>
+                    <th>Type of Cutting</th>
+                    <th>Quarter</th>
+                    <th>Department</th>
+                    <th>Area</th>
+                    <th>Volume</th>
+                    <th>Month</th>
+                    <th>Decade</th>
+                    <th>Year</th>
+                    <th>Дія</th> </tr>
+            </thead>
+            <tbody>
+                {% for forest in forests %}
+                    <tr id="row-{{ forest.id }}">
+                        <td>{{ forest.mainForest }}</td>
+                        <td>{{ forest.forest }}</td>
+                        <td>{{ forest.typeCutting }}</td>
+                        <td>{{ forest.quarter }}</td>
+                        <td>{{ forest.department }}</td>
+                        <td>{{ forest.area }}</td>
+                        <td>{{ forest.volumeForestManagement }}</td>
+                        <td>{{ forest.month }}</td>
+                        <td>{{ forest.decade }}</td>
+                        <td>{{ forest.year }}</td>
+                        <td>
+                            <button onclick="removeFavorite({{ forest.id }}, this)">Видалити</button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr id="empty-message">
+                        <td colspan="11">У вас поки немає збережених записів.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <script src="{{ url_for('static', filename='scripts/delFavorite.js') }}"></script>
+</body>
+</html>

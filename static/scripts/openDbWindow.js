@@ -5,18 +5,17 @@ const forestTwoBtn = document.getElementById('forestTwo-btn');
 const forestThreeBtn = document.getElementById('forestThree-btn');
 
 const closeBtn = document.getElementById('close-modal');
-const modal = document.querySelector('.modal-overlay'); // У нас тепер тільки ОДНА модалка
+const modal = document.querySelector('.modal-overlay');
 const container = document.getElementById('forest-container');
 
-let localForestsData = [];       // Тут зберігаємо ВСЮ базу
-let currentRenderedData = [];    // Тут зберігаємо те, що зараз показується на екрані
-let isMainModal = true;          // Прапорець, щоб знати, чи показувати колонку "mainForest"
+let localForestsData = [];       
+let currentRenderedData = [];    
+let isMainModal = true;          
 
 // Універсальна функція для відкриття модалки
 function openModalWithData(forestNameFilter = null) {
     modal.style.display = 'flex';
 
-    // Якщо база ще порожня - завантажуємо з бекенду
     if (localForestsData.length === 0) {
         container.innerHTML = 'Завантаження...';
         fetch('/api/forests')
@@ -30,7 +29,6 @@ function openModalWithData(forestNameFilter = null) {
                 console.error(err);
             });
     } else {
-        // Якщо дані вже є в пам'яті, просто фільтруємо і малюємо
         processAndRender(forestNameFilter);
     }
 }
@@ -38,22 +36,20 @@ function openModalWithData(forestNameFilter = null) {
 // Функція фільтрації та виклику малювання
 function processAndRender(forestNameFilter) {
     if (forestNameFilter) {
-        // Якщо передали назву (наприклад 'Лісництво 1'), фільтруємо масив
         currentRenderedData = localForestsData.filter(item => item.mainForest === forestNameFilter);
-        isMainModal = false; // Це конкретне лісництво, колонку mainForest можна не показувати
+        isMainModal = false; 
     } else {
-        // Якщо натиснули "Налаштування" - показуємо все
         currentRenderedData = [...localForestsData]; 
         isMainModal = true; 
     }
     
     renderData(currentRenderedData);
 }
+
 // ЄДИНА функція для відтворення HTML
 function renderData(data) {
     container.innerHTML = ''; 
 
-    // Знаходимо кнопку сортування Main Forest
     const sortMainBtn = document.getElementById('sort-main-forest');
 
     data.forEach(item => {
@@ -62,24 +58,32 @@ function renderData(data) {
         
         let htmlContent = '';
         
-        // Якщо це загальна таблиця, показуємо назву головного лісництва і кнопку
         if (isMainModal) {
             htmlContent += `<p>${item.mainForest}</p>`;
             if (sortMainBtn) sortMainBtn.style.display = 'inline-block';
         } else {
-            // Якщо конкретне лісництво - ховаємо зайву кнопку сортування
             if (sortMainBtn) sortMainBtn.style.display = 'none';
         }
         
-        // Додаємо ВСІ поля у правильному порядку (як кнопки в HTML)
+        // НОВЕ: Перевіряємо статус фаворита і вибираємо іконку
+        // Якщо item.is_favorite == true, малюємо зафарбоване сердечко, інакше - пусте
+        let heartIcon = item.is_favorite ? '❤️' : '🤍';
+        
+        // НОВЕ: Додав кнопку сердечка в кінці рядка
         htmlContent += `
             <p>${item.forest}</p>
             <p>${item.typeCutting}</p>
             <p>${item.quarter}</p> 
             <p>${item.department}</p>
             <p>${item.area}</p>
-            <p>${item.volumeForestManagement}</p> <p>${item.month}</p>
-            <p>${item.decade}</p> <p>${item.year}</p>
+            <p>${item.volumeForestManagement}</p> 
+            <p>${item.month}</p>
+            <p>${item.decade}</p> 
+            <p>${item.year}</p>
+            <button class="fav-btn" style="background: none; border: none; cursor: pointer; font-size: 1.2em;" 
+                    onclick="toggleFavorite(${item.id}, this)">
+                ${heartIcon}
+            </button>
         `;
         
         div.innerHTML = htmlContent;
@@ -87,7 +91,7 @@ function renderData(data) {
     });
 }
 
-// Оновлене сортування (сортує тільки те, що ЗАРАЗ на екрані)
+// Оновлене сортування 
 function sortData(field) {
     if (currentRenderedData.length === 0) return;
 
@@ -108,16 +112,45 @@ function sortData(field) {
     renderData(currentRenderedData);
 }
 
+// НОВЕ: Функція для збереження/видалення з фаворитів
+function toggleFavorite(forestId, btnElement) {
+    fetch('/api/toggle_favorite', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ forest_id: forestId })
+    })
+    .then(response => {
+        if (response.status === 401) {
+            alert('Будь ласка, увійдіть в акаунт, щоб зберігати вирубки.');
+            return null;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (!data) return; // Якщо була помилка 401, зупиняємось
+
+        // Знаходимо цей об'єкт у нашому головному масиві даних
+        let item = localForestsData.find(f => f.id === forestId);
+
+        if (data.status === 'added') {
+            btnElement.innerHTML = '❤️';
+            if (item) item.is_favorite = true; // Оновлюємо стан у пам'яті
+        } else if (data.status === 'removed') {
+            btnElement.innerHTML = '🤍';
+            if (item) item.is_favorite = false; // Оновлюємо стан у пам'яті
+        }
+    })
+    .catch(err => console.error('Помилка фаворитів:', err));
+}
+
 // Слухачі подій
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
-// Налаштування (показує всі дані)
-// Налаштування (показує всі дані)
 windowSettings.addEventListener('click', () => openModalWithData(null));
-
-// Відкриваємо те саме вікно, але ПРОСИМО JS ВІДФІЛЬТРУВАТИ дані:
 forestOneBtn.addEventListener('click', () => openModalWithData('Звернігородське'));
 forestTwoBtn.addEventListener('click', () => openModalWithData('Корсунь-Шевченківське'));
 forestThreeBtn.addEventListener('click', () => openModalWithData('Черкаське'));
