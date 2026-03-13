@@ -3,15 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login-singin-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/btn-style.css') }}">
+    <title>Register</title>
 </head>
 <body>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
+    <a class="go-to-main" href="{{ url_for('main') }}">
+        <button style="width: 170px; padding: 10px 15px 10px 3px;" class="glass-button-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M19 12H5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 19L5 12L12 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        На головну</button>
+    </a>
+    
+    <div class="login-conteiner">
+        <div>
+            <h1 style="font-size: 58px; width: 330px; color: #fff;">Раді знов вас бачити</h1>
+        </div>
+        <div class="login">
+            <div class="links-conteiner">
+                <a style="text-decoration: none;" href="{{ url_for('login') }}"><button class="glass-button-white active">Увійти</button></a>
+                <a style="text-decoration: none;" href="{{ url_for('register') }}"><button class="glass-button-white">Зареєструватися</button></a>
+            </div>
+            <form class="form-conteiner" action="/login" method="post">
+                <div class="input-group">
+                    <label for="username">Логін:</label>
+                    <input type="text" id="username" name="username" class="glass-input" placeholder="Введіть логін" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" class="glass-input" placeholder="Введіть пароль" required>
+                </div>
+                
+                <input type="submit" value="Увійти" class="glass-button">
+            </form>
+        </div>    
+    </div>
 </body>
 </html>
