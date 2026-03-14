@@ -4,87 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/btn-style.css') }}">
     <title>ADMIN</title>
 </head>
-<body>
+<body style="background: radial-gradient(circle at center, #2d7a5e 0%, #163d2e 100%);">
     <header>
-        <a href="{{ url_for('comits')}}"><button>Додати коміт</button></a>
-        <a href="{{ url_for('all_users') }}"><button>Перелік користувачі</button></a>
-        <a href="{{ url_for('admin') }}"><button>Додати лісництво</button></a>
-        <a href="{{ url_for('change') }}"><button>Керувати лісництвами</button></a>
-        <a href="{{ url_for('main') }}"><button>Головна сторінка</button></a>
+        <a href="{{ url_for('comits')}}"><button class="glass-button-white">Додати коміт</button></a>
+        <a href="{{ url_for('all_users') }}"><button class="glass-button-white">Перелік користувачів</button></a>
+        <a href="{{ url_for('admin') }}"><button class="glass-button-white active">Додати лісництво</button></a>
+        <a href="{{ url_for('change') }}"><button class="glass-button-white">Керувати лісництвами</button></a>
+        <a href="{{ url_for('main') }}"><button class="glass-button-white">Головна сторінка</button></a>
     </header>
     <main>
         <form action="/admin" method="post">
             <div>
-                <label for="">Надлісництво</label>
-                <select name="mainForest" id="">
-                    <option value="Звернігородське">Звернігородське</option>
-                    <option value="Корсунь-Шевченківське">Корсунь-Шевченківське</option>
-                    <option value="Черкаське">Черкаське</option>
-                </select>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 10px;">
+                    <div class="input-box box-litel">
+                        <h1>Місце знаходження</h1>
+                        <label for="">Надлісництво</label>
+                        <select name="mainForest" id="">
+                            <option value="Звернігородське">Звернігородське</option>
+                            <option value="Корсунь-Шевченківське">Корсунь-Шевченківське</option>
+                            <option value="Черкаське">Черкаське</option>
+                        </select>
+            
+                        <label for="">Лісництво</label>
+                        <input type="text" name="forest" required>
+                    </div>
 
-                <label for="">Лісництво</label>
-                <input type="text" name="forest" required>
-            </div>
-
-            <div>
-
-            <label for="">Вид рубки</label>
-                <select name="typeCutting" id="">
-                    <option value="РГК">РГК</option>
-                    <option value="ОСВ">ОСВ</option>
-                    <option value="ПРЧ">ПРЧ</option>
-                    <option value="ПРЖ">ПРЖ</option>
-                    <option value="ПРХ">ПРХ</option>
-                </select>
-
-                <label for="">Квартал</label>
-                <input type="number" name="quarter" required>
-
-                <label for="">Виділ</label>
-                <input type="number" step="any" name="department" required>
-
-                <label for="">Площа</label>
-                <input type="number" step="any" name="area" required>
-
-            </div>
-
-            <div>
-                <label for="">Об'єм відповідно до матеріалів лісовпорядкування</label>
-                <input type="number" name="volumeForestManagement" required>
                 
-                <label for="">Місяць</label>
-                <select name="month" id="">
-                    <option value="Січень">Січень</option>
-                    <option value="Лютий">Лютий</option>
-                    <option value="Березень">Березень</option>
-                    <option value="Квітень">Квітень</option>
-                    <option value="Травень">Травень</option>
-                    <option value="Червень">Червень</option>
-                    <option value="Липень">Липень</option>
-                    <option value="Серпень">Серпень</option>
-                    <option value="Вересень">Вересень</option>
-                    <option value="Жовтень">Жовтень</option>
-                    <option value="Листопад">Листопад</option>
-                    <option value="Грудень">Грудень</option>
-                </select>
-    
-                <label for="">Декада</label>
-                <input type="text" name="decade" required>
-    
-                <label for="">Рік рубки</label>
-                <select name="year" id="">
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                </select> 
+                    <div class="input-box box-big">
+                        <h1>Планування</h1>
+                        <label for="">Вид рубки</label>
+                        <select name="typeCutting" id="">
+                            <option value="РГК">РГК</option>
+                            <option value="ОСВ">ОСВ</option>
+                            <option value="ПРЧ">ПРЧ</option>
+                            <option value="ПРЖ">ПРЖ</option>
+                            <option value="ПРХ">ПРХ</option>
+                        </select>
+                        
+                        <label for="">Об'єм відповідно до матеріалів лісовпорядкування</label>
+                        <input type="number" name="volumeForestManagement" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+
+                    <div class="input-box box-big">
+                        <h1>Характеристики ділянки</h1>
+                        <label for="">Квартал</label>
+                        <input type="number" name="quarter" required>
+        
+                        <label for="">Виділ</label>
+                        <input type="number" step="any" name="department" required>
+        
+                        <label for="">Площа</label>
+                        <input type="number" step="any" name="area" required>
+                    </div>
+        
+                    <div class="input-box box-litel">
+                        <h1>Дата рубки</h1>
+                        <label for="">Місяць</label>
+                        <select name="month" id="">
+                            <option value="Січень">Січень</option>
+                            <option value="Лютий">Лютий</option>
+                            <option value="Березень">Березень</option>
+                            <option value="Квітень">Квітень</option>
+                            <option value="Травень">Травень</option>
+                            <option value="Червень">Червень</option>
+                            <option value="Липень">Липень</option>
+                            <option value="Серпень">Серпень</option>
+                            <option value="Вересень">Вересень</option>
+                            <option value="Жовтень">Жовтень</option>
+                            <option value="Листопад">Листопад</option>
+                            <option value="Грудень">Грудень</option>
+                        </select>
+            
+                        <label for="">Декада</label>
+                        <input type="text" name="decade" required>
+            
+                        <label for="">Рік рубки</label>
+                        <select name="year" id="">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select> 
+                    </div>
+                </div>
             </div>
-            <button type="submit">Додати</button>
+            <div>
+                <p style="width: 200px; text-align: justify; color: #fff;">Перед надсиланням переконайтесь, що всі дані введено правильно</p>
+                <button type="submit" class="submit-btn">Додати</button>
+            </div>
         </form>
     </main>
 </body>

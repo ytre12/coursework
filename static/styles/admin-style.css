@@ -4,11 +4,16 @@ header {
     gap: 50px;
 }
 
+h1 {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
 form {
     margin-top: 80px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 40px;
 }
@@ -18,4 +23,101 @@ form {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgb(255, 255, 255);
+    color: #fff;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.box-litel {
+    width: 300px;
+}
+
+.box-big {
+    width: 500px;
+}
+
+.input-box label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8); 
+    margin-bottom: 2px; 
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%; 
+    box-sizing: border-box; 
+    padding: 12px 15px;
+    
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 12px;
+    
+    color: #ffffff; 
+    font-size: 16px;
+    font-family: inherit;
+    
+    outline: none;
+    transition: all 0.3s ease; 
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    background: rgba(255, 255, 255, 0.15); 
+    border-color: rgba(255, 255, 255, 0.6); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.input-box select option {
+    background-color: #163d2e; 
+    color: #ffffff;
+}
+
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-btn {
+    width: 200px;
+    background: rgba(255, 255, 255, 0.15); 
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    
+    padding: 15px 40px; 
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.25); 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
