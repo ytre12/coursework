@@ -9,11 +9,11 @@
 </head>
 <body style="background: radial-gradient(circle at center, #2d7a5e 0%, #163d2e 100%);">
     <header>
-        <a href="{{ url_for('comits')}}"><button class="glass-button-white">Додати коміт</button></a>
-        <a href="{{ url_for('all_users') }}"><button class="glass-button-white">Перелік користувачів</button></a>
-        <a href="{{ url_for('admin') }}"><button class="glass-button-white active">Додати лісництво</button></a>
-        <a href="{{ url_for('change') }}"><button class="glass-button-white">Керувати лісництвами</button></a>
-        <a href="{{ url_for('main') }}"><button class="glass-button-white">Головна сторінка</button></a>
+        <a style="text-decoration: none;" href="{{ url_for('comits')}}"><button class="glass-button-white">Додати коміт</button></a>
+        <a style="text-decoration: none;" href="{{ url_for('all_users') }}"><button class="glass-button-white">Перелік користувачів</button></a>
+        <a style="text-decoration: none;" href="{{ url_for('admin') }}"><button class="glass-button-white active">Додати лісництво</button></a>
+        <a style="text-decoration: none;" href="{{ url_for('change') }}"><button class="glass-button-white">Керувати лісництвами</button></a>
+        <a style="text-decoration: none;" href="{{ url_for('main') }}"><button class="glass-button-white">Головна сторінка</button></a>
     </header>
     <main>
         <form action="/admin" method="post">

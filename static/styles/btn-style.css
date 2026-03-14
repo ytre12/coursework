@@ -39,3 +39,63 @@
     cursor: default; 
     pointer-events: none;
 }
+
+
+.submit-btn {
+    width: 200px;
+    background: rgba(255, 255, 255, 0.15); 
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    
+    padding: 15px 40px; 
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.25); 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.delete-btn {
+    border-color: rgba(232, 65, 24, 0.5);
+    color: #ff7675;
+}
+
+.delete-btn:hover {
+    background: rgba(232, 65, 24, 0.2);
+    color: white;
+}
