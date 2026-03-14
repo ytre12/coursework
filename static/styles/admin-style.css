@@ -211,7 +211,16 @@ form {
     text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Трохи адаптуємо текст під темний фон */
 .user-text-light p {
     color: #f1f1f1;
+}
+
+.text-light {
+    color: #f1f1f1;
+    line-height: 1.6;
+}
+
+.text-light strong {
+    color: #ffffff;
+    font-size: 1.1em;
 }
