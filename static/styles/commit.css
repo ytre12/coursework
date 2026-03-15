@@ -1,19 +1,100 @@
 .commit-modal {
-    position: absolute;
+    position: fixed;
     display: none;
     right: 0px;
     top: 0px;
-    width: 350px;
-    height: 100%;
-    background-color: antiquewhite;
-    border-radius: 30px;
-} 
+    width: 380px; 
+    height: 100vh; 
+    
+    background: rgba(203, 213, 225, 0.85); 
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px 0 0 30px;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 1000; 
+    
+    padding: 20px;
+    padding-top: 70px; 
+    box-sizing: border-box;
+}
+
+#commit-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(239, 68, 68, 0.1); 
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#commit-modal-close:hover {
+    background: #ef4444;
+    color: white;
+}
 
 .commit-conteiner {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.commit-conteiner::-webkit-scrollbar {
+    width: 6px;
+}
+.commit-conteiner::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.3);
+    border-radius: 10px;
+}
+
+.commit {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.commit:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.commit > div {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.commit > div p:first-child {
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.commit > div p:last-child {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.commit > p {
+    font-size: 0.95rem;
+    color: #334155;
+    margin: 0;
+    line-height: 1.5;
 }
