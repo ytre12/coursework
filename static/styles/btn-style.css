@@ -118,3 +118,54 @@
     justify-content: center;
 }
  
+
+.btn-forest-navigation {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 15px; 
+    margin: 20px 0;
+    width: 100%;
+}
+
+
+.btn-forest-navigation button {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1b5e20; 
+    background: rgba(76, 175, 80, 0.15); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6); 
+    border-radius: 25px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.btn-forest-navigation button:hover {
+    background: linear-gradient(135deg, rgba(67, 160, 71, 0.8) 0%, rgba(129, 199, 132, 0.8) 100%);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    transform: translateY(-3px); 
+}
+
+.btn-forest-navigation button:active {
+    transform: translateY(1px); 
+    box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+}
+
+#seting-btn {
+    background: rgba(255, 255, 255, 0.3);
+    color: #444;
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+#seting-btn:hover {
+    background: rgba(255, 255, 255, 0.7);
+    color: #111;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Сіра тінь замість зеленої */
+}
