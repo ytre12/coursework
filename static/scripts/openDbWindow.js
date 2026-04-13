@@ -2,6 +2,9 @@ const windowSettings = document.getElementById('seting-btn');
 const forestOneBtn = document.getElementById('forestOne-btn');
 const forestTwoBtn = document.getElementById('forestTwo-btn');
 const forestThreeBtn = document.getElementById('forestThree-btn');
+const forestFourBtn = document.getElementById('forestFour-btn');
+const forestFiveBtn = document.getElementById('forestFive-btn');
+const forestSixBtn = document.getElementById('forestSix-btn');
 
 const closeBtn = document.getElementById('close-modal');
 const modal = document.querySelector('.modal-overlay');
@@ -140,6 +143,9 @@ closeBtn.addEventListener('click', () => {
 });
 
 windowSettings.addEventListener('click', () => openModalWithData(null));
-forestOneBtn.addEventListener('click', () => openModalWithData('Звернігородське'));
+forestOneBtn.addEventListener('click', () => openModalWithData('Звенигородське'));
 forestTwoBtn.addEventListener('click', () => openModalWithData('Корсунь-Шевченківське'));
 forestThreeBtn.addEventListener('click', () => openModalWithData('Черкаське'));
+forestFourBtn.addEventListener('click', () => openModalWithData('Чигиринське'));
+forestFiveBtn.addEventListener('click', () => openModalWithData('Уманьський лісгосп'));
+forestSixBtn.addEventListener('click', () => openModalWithData('Золотоніський лісгосп'));

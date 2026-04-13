@@ -20,8 +20,11 @@ main {
 .btn-forest-navigation {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    padding: 20px;
+    gap: 25px;
+    padding: 20px 30px;
+    background-color: rgba(102, 187, 106, 0.130);
+    border-radius: 20px;
+    border: 1px solid rgba(102, 187, 106, 0.3);
 }
 
 .db-conteiner {

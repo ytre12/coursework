@@ -41,7 +41,7 @@ header h1 {
 .header-btn {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 30px;
 }
 
 .header-btn button:not(.logout-btn) {

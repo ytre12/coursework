@@ -167,5 +167,5 @@
 #seting-btn:hover {
     background: rgba(255, 255, 255, 0.7);
     color: #111;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Сіра тінь замість зеленої */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
 }

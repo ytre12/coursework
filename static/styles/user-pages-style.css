@@ -11,3 +11,14 @@ header {
     display: flex;
     gap: 30px;
 }
+
+.div-text {
+    width: 70%;
+    text-align: justify;
+    padding: 30px 40px;
+    background-color: rgba(102, 187, 106, 0.25);
+    border-radius: 20px;
+    border: 1px solid rgba(102, 187, 106, 0.3);
+    font-size: 18px;
+    font-weight: 400;
+}
