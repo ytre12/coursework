@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/commit.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/user-pages-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/user-favorite-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/forum-style.css') }}">
@@ -41,28 +40,30 @@
             {% endif %}
         </div>
     </header>
-    <main>
-        <h1>About Us</h1>
+    <main style="align-items: start; padding-inline: 15%;">
+        <div class="about-as-page-text">
+            <h1>Ліс під <b style="color: #0c840c;">контролем</b> — дані доступні <b style="color: #0c840c;" >кожному</b></h1>
+            <p class="about-as-page-text-size">Проєкт «LisCHE» створений з метою підвищення прозорості, контролю та ефективного управління лісовими ресурсами регіону.</p>
+        </div>
 
-        https://www.figma.com/design/7CPmdJaJJEsNTSavtJ35bb/Interactive-Portfolio-Website--Figma-UI-Design-Tutorial-for-Beginners-|-Step-by-Step-Guide--Community-?node-id=0-1&p=f&t=kx6x3gFg20UDUejO-0
+        <div class="about-as-page-text">
+            <h2>Наша мета</h2>
+            <ul class="about-as-page-text-size">
+                <li>забезпечити відкритість інформації про лісозаготівлю;</li>
+                <li>підвищити рівень довіри суспільства;</li>
+                <li>створити інструмент для ефективного моніторингу ресурсів;</li>
+                <li>сприяти сталому використанню лісів Черкаської області.</li>
+            </ul>
+        </div>
 
-        Шановні питання відносно карти (svg) ще відкрито, також стосовно дизайну сторіки "про нас" (пошукайте в figma готові шаблони портфоліо/реклами з схожою палітрою кольорів і по тому шаблону розпишіть конент, і стосовно контенту для сторінки "про нас" малувато треба більше) 
-
-        І дуже цікаве иптання з DB, в "Уманському" та "Золотоніському" взагалі немає данних 
+        <div class="about-as-page-text">
+            <h2>Наша місія</h2>
+            <p class="about-as-page-text-size"> Зробити управління лісовими ресурсами Черкаської області цифровим, прозорим та підзвітним громаді.</p>
+        </div>
         
-        <div style="display: flex; justify-content: center; gap: 40px;">
-            <div>
-                <div class="div-text">
-                    <p>Команда студентів виконала роботу зі створення сайту, метою якого є полегшення
-                    впорядкування записівлісозаготівельних робіт на Черкащині. Дані були взяті з офіційних
-                    сайтів ДП"Ліси України" та "Лісорубний квиток".</p>
-                </div>
-                <div class="div-text">
-                    <p>У разі виникнення питань звертатися до 
-адміністратора сайту на пошту ...@gmail.com.</p>
-                </div>
-            </div>
-            <img src="" alt="Картинка лісництва" width="100%">
+        <div class="about-as-page-text">
+            <p class="about-as-page-text-size">Ми відкриті до співпраці, пропозицій та зворотнього зв’язку. Разом ми збережемо зелені легені нашого краю!</p>
+            <a href="mailto:ytre12ua@gmail.com">Зворотній звʼязок</a>
         </div>
     </main>
 
