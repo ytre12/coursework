@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <h1>Name of app</h1>
+        <h1>LisCHE</h1>
         <div class="header-btn">
             {% if current_user.is_authenticated %}
                 <span class="welcome-text">Вітаємо, {{ current_user.username }}</span>
@@ -20,7 +20,7 @@
                 {% endif %}
                 <a href="{{ url_for('main') }}"><button>Головна</button></a>
                 <a href="{{ url_for('forum') }}"><button>Форум</button></a>
-                <a href="{{ url_for('about_ass') }}"><button>Про нас</button></a>
+                <a href="{{ url_for('about_us') }}"><button>Про нас</button></a>
                 <a href="{{ url_for('logout') }}" class="logout-btn">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

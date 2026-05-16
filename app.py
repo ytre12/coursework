@@ -281,11 +281,11 @@ def delete_forum_comment(id):
     db.session.commit()
     return redirect('/forum')
 
-@app.route('/about_ass')
+@app.route('/about_us')
 @login_required
-def about_ass():
+def about_us():
     commitDb = Comits.query.order_by(Comits.date.desc()).limit(5).all()
-    return render_template('about_ass.html', comits=commitDb)
+    return render_template('about_us.html', comits=commitDb)
 
 @app.route('/favorite')
 @login_required
